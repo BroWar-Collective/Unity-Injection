@@ -1,13 +1,13 @@
 {
-  "name": "com.browar.TODO",
-  "displayName": "TODO",
-  "version": "0.0.0",
+  "name": "com.browar.injection",
+  "displayName": "Injection",
+  "version": "0.0.1",
   "unity": "2018.1",
-  "description": "TODO.",
+  "description": "Dependency Injection system.",
   "keywords": [
-    "TODO",
+    "di",
   ],
-  "category": "TODO",
+  "category": "architecture",
   "author": {
     "name": "BroWar Collective",
     "email": "browar.collective@gmail.com",
