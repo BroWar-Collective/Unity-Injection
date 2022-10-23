@@ -5,11 +5,11 @@
   "unity": "2018.1",
   "description": "Dependency Injection system.",
   "keywords": [
-    "di",
+    "di"
   ],
   "category": "architecture",
   "dependencies": {
-	"com.browar.toolbox": "0.11.9"
+	"com.browar.editor-toolbox": "0.11.9"
   },
   "author": {
     "name": "BroWar Collective",
