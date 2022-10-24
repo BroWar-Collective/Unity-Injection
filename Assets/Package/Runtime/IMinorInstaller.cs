@@ -2,7 +2,7 @@
 
 namespace BroWar.Injection
 {
-    internal interface IInstaller
+    public interface IMinorInstaller
     {
         void Install(DiContainer container);
     }

@@ -7,7 +7,7 @@ namespace BroWar.Injection
     public class GeneralInstaller : MonoInstaller<GeneralInstaller>
     {
         [SerializeReference, ReferencePicker(TypeGrouping = TypeGrouping.ByFlatName), ReorderableList(elementLabel: "Installer")]
-        private IInstaller[] installers;
+        private IMinorInstaller[] installers;
 
         public override void InstallBindings()
         {
