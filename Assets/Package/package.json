@@ -1,7 +1,7 @@
 {
   "name": "com.browar.injection",
   "displayName": "Injection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "unity": "2018.1",
   "description": "Dependency Injection system.",
   "keywords": [
@@ -9,7 +9,7 @@
   ],
   "category": "architecture",
   "dependencies": {
-	"com.browar.editor-toolbox": "0.11.9"
+	"com.browar.editor-toolbox": "0.12.0"
   },
   "author": {
     "name": "BroWar Collective",
