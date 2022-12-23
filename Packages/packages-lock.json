@@ -1,7 +1,14 @@
 {
   "dependencies": {
+    "com.browar.common": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://npm.cloudsmith.io/browar-collective/browar"
+    },
     "com.browar.editor-toolbox": {
-      "version": "0.11.9",
+      "version": "0.12.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
