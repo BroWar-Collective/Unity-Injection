@@ -1,19 +1,20 @@
 {
-  "name": "com.browar.injection",
-  "displayName": "Injection",
-  "version": "1.1.0",
-  "unity": "2018.1",
-  "description": "Dependency Injection system.",
-  "keywords": [
-    "di"
-  ],
-  "category": "architecture",
-  "dependencies": {
-	"com.browar.editor-toolbox": "0.12.0"
-  },
-  "author": {
-    "name": "BroWar Collective",
-    "email": "browar.collective@gmail.com",
-    "url": "https://github.com/BroWar-Collective"
-  }
+    "name": "com.browar.injection",
+    "displayName": "Injection",
+    "version": "1.1.0",
+    "unity": "2018.1",
+    "description": "Dependency Injection system.",
+    "keywords": [
+        "di"
+    ],
+    "category": "architecture",
+    "dependencies": {
+        "com.browar.common": "1.0.0",
+        "com.browar.editor-toolbox": "0.12.0"
+    },
+    "author": {
+        "name": "BroWar Collective",
+        "email": "browar.collective@gmail.com",
+        "url": "https://github.com/BroWar-Collective"
+    }
 }
