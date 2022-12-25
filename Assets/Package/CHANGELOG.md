@@ -1,3 +1,8 @@
+## 1.1.1 [25.12.2022]
+
+### Changed:
+- Fix package dependencies
+
 ## 1.1.0 [23.12.2022]
 
 ### Added:
