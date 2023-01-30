@@ -1,3 +1,11 @@
+## 1.2.1 [30.01.2023]
+
+### Added:
+- Processable installers and ISubProcessor<T> interface
+### Changed:
+- Renamed: IMinorInstaller => ISubInstaller
+- Renamed: GeneralInstaller => ContextInstaller
+
 ## 1.1.1 [25.12.2022]
 
 ### Changed:
