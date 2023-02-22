@@ -1,3 +1,8 @@
+## 1.2.2 [22.02.2023]
+
+### Changed:
+- Fix constraints in the Zenject.Editor.TestFramework assembly
+
 ## 1.2.1 [30.01.2023]
 
 ### Added:
