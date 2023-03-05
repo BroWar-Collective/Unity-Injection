@@ -1,0 +1,20 @@
+{
+    "name": "BroWar.Injection.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:696a0953692949b40bec8730e64e1fdd",
+        "GUID:1b845e2499b39be4aab3e6ac2c8aa02a",
+        "GUID:11e36ca0442f8124794de12737960732"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
