@@ -8,7 +8,7 @@ namespace BroWar.Injection
     /// <summary>
     /// Installer that can be exposed to a parent context, e.g. from <see cref="GameObjectContext"/> to <see cref="SceneContext"/>.
     /// </summary>
-    public abstract class ExposableInstaller : ISubInstaller
+    public abstract class ExposableSubInstaller : ISubInstaller
     {
         [SerializeField, Tooltip("If true parent container will be used for binding." +
             " This is useful when we want to expose references outside our context.")]
@@ -39,7 +39,7 @@ namespace BroWar.Injection
                 }
                 else
                 {
-                    LogHandler.Log("[Game] Cannot find parent container.", LogType.Warning);
+                    LogHandler.Log("[Injection] Cannot find parent container.", LogType.Warning);
                 }
             }
 
