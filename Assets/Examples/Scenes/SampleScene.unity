@@ -187,7 +187,8 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
-  root: {fileID: 0}
+  roots:
+  - {fileID: 1440433386}
 --- !u!114 &1440433389
 MonoBehaviour:
   m_ObjectHideFlags: 0
