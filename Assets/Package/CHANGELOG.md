@@ -1,3 +1,12 @@
+## 1.2.5 [12.03.2023]
+
+### Added:
+- RootContext implementation
+- FixedContext implementation
+- ContextOrderHelper implementation
+### Changed:
+- Rename ExposableInstaller to ExposableSubInstaller
+
 ## 1.2.2 [22.02.2023]
 
 ### Changed:
