@@ -6,22 +6,22 @@ namespace BroWar.Injection.Editor
 {
     using BroWar.Injection.Contexts;
 
-    [CustomEditor(typeof(RootContext)), NoReflectionBaking]
-    public class RootContextEditor : SceneContextEditorBase
+    [CustomEditor(typeof(FixedContext)), NoReflectionBaking]
+    public class FixedContextEditor : SceneContextEditorBase
     {
-        private SerializedProperty rootsProperty;
+        private SerializedProperty injectableBehavioursProperty;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            rootsProperty = serializedObject.FindProperty("roots");
+            injectableBehavioursProperty = serializedObject.FindProperty("injectableBehaviours");
         }
 
         public override void DrawCustomInspector()
         {
             serializedObject.Update();
             base.DrawCustomInspector();
-            ToolboxEditorGui.DrawToolboxProperty(rootsProperty);
+            ToolboxEditorGui.DrawToolboxProperty(injectableBehavioursProperty);
             serializedObject.ApplyModifiedProperties();
         }
     }
