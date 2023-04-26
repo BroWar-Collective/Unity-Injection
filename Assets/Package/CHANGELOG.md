@@ -1,3 +1,8 @@
+## 1.2.6 [27.04.2023]
+
+### Changed:
+- Fix enabling ProjectContext in builds
+
 ## 1.2.5 [12.03.2023]
 
 ### Added:
