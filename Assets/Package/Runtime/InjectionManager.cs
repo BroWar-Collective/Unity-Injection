@@ -47,7 +47,6 @@ namespace BroWar.Injection
                 instance = Instantiate(projectContextPrefab, ZenUtilInternal.GetOrCreateInactivePrefabParent());
                 instance.gameObject.SetActive(false);
                 instance.transform.SetParent(null, false);
-                instance.gameObject.SetActive(true);
             }
             else
             {
@@ -69,6 +68,11 @@ namespace BroWar.Injection
             ProjectContext.Instance = instance;
             instance.name = "Project Context";
             instance.Initialize();
+
+            if (prefabWasActive)
+            {
+                instance.gameObject.SetActive(true);
+            }
         }
 
         /// <inheritdoc />
