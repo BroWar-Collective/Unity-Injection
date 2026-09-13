@@ -176,7 +176,6 @@ namespace Zenject.Internal
                 "Decorator scene '{0}' must be loaded before decorated scene '{1}'.  Please drag the decorator scene to be placed above the other scene in the scene hierarchy.",
                 decoratorInfo.Scene.name, decoratedInfo.Scene.name);
 
-            var decoratorContext = decoratorInfo.DecoratorContext;
             if (activeIndex > decoratorIndex)
             {
                 EditorSceneManager.SetActiveScene(decoratorInfo.Scene);
