@@ -176,10 +176,10 @@ namespace Zenject.Internal
                 "Decorator scene '{0}' must be loaded before decorated scene '{1}'.  Please drag the decorator scene to be placed above the other scene in the scene hierarchy.",
                 decoratorInfo.Scene.name, decoratedInfo.Scene.name);
 
+            var decoratorContext = decoratorInfo.DecoratorContext;
             if (activeIndex > decoratorIndex)
             {
-                //NOTE: there is no need to change Active Scene, Zenject logic doesn't require the parent scene to be active, and active Scene is crucial on some built-in Unity systems
-                //EditorSceneManager.SetActiveScene(decoratorInfo.Scene);
+                EditorSceneManager.SetActiveScene(decoratorInfo.Scene);
             }
         }
 
@@ -193,10 +193,10 @@ namespace Zenject.Internal
             Assert.That(parentIndex < childIndex,
                 "Parent scene '{0}' must be loaded before child scene '{1}'.  Please drag it to be placed above its child in the scene hierarchy.", parentSceneInfo.Scene.name, sceneInfo.Scene.name);
 
-            if (activeIndex > parentIndex)
+            var parentContext = parentSceneInfo.SceneContext;
+            if (activeIndex > parentIndex && parentContext != null && parentContext.AutoRun)
             {
-                //NOTE: there is no need to change Active Scene, Zenject logic doesn't require the parent scene to be active, and active Scene is crucial on some built-in Unity systems
-                //EditorSceneManager.SetActiveScene(parentSceneInfo.Scene);
+                EditorSceneManager.SetActiveScene(parentSceneInfo.Scene);
             }
         }
 
