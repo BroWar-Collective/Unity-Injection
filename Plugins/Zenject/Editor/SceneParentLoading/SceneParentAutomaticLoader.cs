@@ -13,6 +13,7 @@ namespace Zenject.Internal
     {
         static SceneParentAutomaticLoader()
         {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
 
@@ -177,7 +178,8 @@ namespace Zenject.Internal
 
             if (activeIndex > decoratorIndex)
             {
-                EditorSceneManager.SetActiveScene(decoratorInfo.Scene);
+                //NOTE: there is no need to change Active Scene, Zenject logic doesn't require the parent scene to be active, and active Scene is crucial on some built-in Unity systems
+                //EditorSceneManager.SetActiveScene(decoratorInfo.Scene);
             }
         }
 
@@ -193,7 +195,8 @@ namespace Zenject.Internal
 
             if (activeIndex > parentIndex)
             {
-                EditorSceneManager.SetActiveScene(parentSceneInfo.Scene);
+                //NOTE: there is no need to change Active Scene, Zenject logic doesn't require the parent scene to be active, and active Scene is crucial on some built-in Unity systems
+                //EditorSceneManager.SetActiveScene(parentSceneInfo.Scene);
             }
         }
 
