@@ -1,3 +1,13 @@
+## 1.2.8 [15.09.2026]
+
+### Changed:
+- Adjust SceneParentAutomaticLoader to affect only AutoRun-based SceneContexts
+
+## 1.2.7 [13.09.2026]
+
+### Changed:
+- Remove SetActiveScene calls caused by Zenject's internal editor scripts
+
 ## 1.2.6 [27.04.2023]
 
 ### Changed:
@@ -9,6 +19,7 @@
 - RootContext implementation
 - FixedContext implementation
 - ContextOrderHelper implementation
+
 ### Changed:
 - Rename ExposableInstaller to ExposableSubInstaller
 
@@ -21,6 +32,7 @@
 
 ### Added:
 - Processable installers and ISubProcessor<T> interface
+
 ### Changed:
 - Renamed: IMinorInstaller => ISubInstaller
 - Renamed: GeneralInstaller => ContextInstaller
@@ -34,6 +46,7 @@
 
 ### Added:
 - Possibility to predefine ProjectContext using InjectionManager
+
 ### Changed:
 - Zenject update (v9.3.1)
 

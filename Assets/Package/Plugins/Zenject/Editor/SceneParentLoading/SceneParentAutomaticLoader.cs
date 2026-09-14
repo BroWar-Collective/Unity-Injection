@@ -13,6 +13,7 @@ namespace Zenject.Internal
     {
         static SceneParentAutomaticLoader()
         {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
 
@@ -191,7 +192,8 @@ namespace Zenject.Internal
             Assert.That(parentIndex < childIndex,
                 "Parent scene '{0}' must be loaded before child scene '{1}'.  Please drag it to be placed above its child in the scene hierarchy.", parentSceneInfo.Scene.name, sceneInfo.Scene.name);
 
-            if (activeIndex > parentIndex)
+            var parentContext = parentSceneInfo.SceneContext;
+            if (activeIndex > parentIndex && parentContext != null && parentContext.AutoRun)
             {
                 EditorSceneManager.SetActiveScene(parentSceneInfo.Scene);
             }

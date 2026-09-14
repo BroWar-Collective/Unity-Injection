@@ -9,7 +9,7 @@ namespace BroWar.Injection
     [AddComponentMenu("BroWar/Injection/Context Installer")]
     public class ContextInstaller : MonoInstaller<ContextInstaller>
     {
-        [SerializeReference, ReferencePicker(TypeGrouping = TypeGrouping.ByFlatName), ReorderableList(elementLabel: "Installer")]
+        [SerializeReference, ReferencePicker, ReorderableList(elementLabel: "Installer")]
         private ISubInstaller[] installers;
 
         protected virtual void HandleInstallers()
