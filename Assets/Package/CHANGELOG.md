@@ -1,3 +1,8 @@
+## 1.2.8 [15.09.2026]
+
+### Changed:
+- Adjust SceneParentAutomaticLoader to affect only AutoRun-based SceneContexts
+
 ## 1.2.7 [13.09.2026]
 
 ### Changed:
