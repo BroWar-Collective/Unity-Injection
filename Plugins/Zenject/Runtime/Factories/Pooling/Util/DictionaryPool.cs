@@ -1,5 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ModestTree;
+using UnityEngine;
 
 namespace Zenject
 {
@@ -18,6 +19,12 @@ namespace Zenject
             get { return _instance; }
         }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStaticValues()
+        {
+            _instance = null;
+        }
+
         static void OnSpawned(Dictionary<TKey, TValue> items)
         {
             Assert.That(items.IsEmpty());
@@ -29,4 +36,3 @@ namespace Zenject
         }
     }
 }
-

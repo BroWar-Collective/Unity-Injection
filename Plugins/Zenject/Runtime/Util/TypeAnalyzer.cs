@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModestTree;
+using UnityEngine;
 using Zenject.Internal;
 
 namespace Zenject
@@ -19,12 +20,12 @@ namespace Zenject
 
     public static class TypeAnalyzer
     {
-        static Dictionary<Type, InjectTypeInfo> _typeInfo = new Dictionary<Type, InjectTypeInfo>();
+        static readonly Dictionary<Type, InjectTypeInfo> _typeInfo = new Dictionary<Type, InjectTypeInfo>();
 
         // We store this separately from InjectTypeInfo because this flag is needed for contract
         // types whereas InjectTypeInfo is only needed for types that are instantiated, and
         // we want to minimize the types that generate InjectTypeInfo for
-        static Dictionary<Type, bool> _allowDuringValidation = new Dictionary<Type, bool>();
+        static readonly Dictionary<Type, bool> _allowDuringValidation = new Dictionary<Type, bool>();
 
         // Use double underscores for generated methods since this is also what the C# compiler does
         // for things like anonymous methods
@@ -39,20 +40,13 @@ namespace Zenject
             get; set;
         }
 
-#if UNITY_EDITOR
-        // Required for disabling domain reload in enter the play mode feature. See: https://docs.unity3d.com/Manual/DomainReloading.html
-        [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStaticValues()
-        {
-            if (!UnityEditor.EditorSettings.enterPlayModeOptionsEnabled)
-            {
-                return;
-            }
-            
+        {            
             _typeInfo.Clear();
             _allowDuringValidation.Clear();
+            ReflectionBakingCoverageMode = 0;
         }
-#endif
 
         public static bool ShouldAllowDuringValidation<T>()
         {

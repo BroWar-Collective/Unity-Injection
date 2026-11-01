@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 #if !NOT_UNITY3D
 using UnityEngine;
 #endif
@@ -35,7 +35,7 @@ namespace Zenject
     [NoReflectionBaking]
     public class ZenjectSettings
     {
-        public static ZenjectSettings Default = new ZenjectSettings();
+        public static readonly ZenjectSettings Default = new ZenjectSettings();
 
 #if !NOT_UNITY3D
         [SerializeField]
@@ -135,7 +135,7 @@ namespace Zenject
         [Serializable]
         public class SignalSettings
         {
-            public static SignalSettings Default = new SignalSettings();
+            public readonly static SignalSettings Default = new SignalSettings();
 
 #if !NOT_UNITY3D
             [SerializeField]

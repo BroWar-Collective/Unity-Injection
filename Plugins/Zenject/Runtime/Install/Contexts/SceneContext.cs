@@ -1,4 +1,4 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System;
 using System.Collections.Generic;
@@ -108,21 +108,14 @@ namespace Zenject
             set { _parentNewObjectsUnderSceneContext = value; }
         }
 
-#if UNITY_EDITOR
-        // Required for disabling domain reload in enter the play mode feature. See: https://docs.unity3d.com/Manual/DomainReloading.html
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStaticValues()
         {
-            if (!EditorSettings.enterPlayModeOptionsEnabled)
-            {
-                return;
-            }
-            
-            ExtraBindingsInstallMethod = null;
             ParentContainers = null;
+            ExtraBindingsInstallMethod = null;
             ExtraBindingsLateInstallMethod = null;
         }
-#endif
+
         protected override void Awake()
         {
             base.Awake();

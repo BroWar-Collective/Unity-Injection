@@ -1,5 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ModestTree;
+using UnityEngine;
 
 namespace Zenject
 {
@@ -11,6 +12,12 @@ namespace Zenject
         {
             OnSpawnMethod = OnSpawned;
             OnDespawnedMethod = OnDespawned;
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStaticValues()
+        {
+            _instance = null;
         }
 
         public static HashSetPool<T> Instance
