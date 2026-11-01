@@ -1,4 +1,4 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace Zenject
             get;
             set;
         }
-        
+
         public ZenjectSettings Settings
         {
             get => _settings;
@@ -139,7 +139,7 @@ namespace Zenject
 
                     GameObject gameObjectInstance;
 #if UNITY_EDITOR
-                    if(prefabWasActive)
+                    if (prefabWasActive)
                     {
                         // This ensures the prefab's Awake() methods don't fire (and, if in the editor, that the prefab file doesn't get modified)
                         gameObjectInstance = GameObject.Instantiate(prefab, ZenUtilInternal.GetOrCreateInactivePrefabParent());
@@ -186,23 +186,16 @@ namespace Zenject
             }
         }
 
-#if UNITY_EDITOR
-        // Required for disabling domain reload in enter the play mode feature. See: https://docs.unity3d.com/Manual/DomainReloading.html
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStaticValues()
         {
-            if (!UnityEditor.EditorSettings.enterPlayModeOptionsEnabled)
-            {
-                return;
-            }
-            
             PreInstall = null;
             PostInstall = null;
             PreResolve = null;
             PostResolve = null;
             _instance = null;
+            ValidateOnNextRun = false;
         }
-#endif
 
         public bool ParentNewObjectsUnderContext
         {
@@ -218,13 +211,13 @@ namespace Zenject
         protected override void Awake()
         {
             // We don't call base.Awake here because ProjectContext gets instantiated every time. 
-            
-            
+
+
             if (Application.isPlaying)
-                // DontDestroyOnLoad can only be called when in play mode and otherwise produces errors
-                // ProjectContext is created during design time (in an empty scene) when running validation
-                // and also when running unit tests
-                // In these cases we don't need DontDestroyOnLoad so just skip it
+            // DontDestroyOnLoad can only be called when in play mode and otherwise produces errors
+            // ProjectContext is created during design time (in an empty scene) when running validation
+            // and also when running unit tests
+            // In these cases we don't need DontDestroyOnLoad so just skip it
             {
                 DontDestroyOnLoad(gameObject);
             }
@@ -233,10 +226,10 @@ namespace Zenject
         public void Initialize()
         {
             Assert.IsNull(_container);
-            
+
             // Do this as early as possible before any type analysis occurs
             ReflectionTypeAnalyzer.ConstructorChoiceStrategy = _settings.ConstructorChoiceStrategy;
-            
+
             if (Application.isEditor)
             {
                 TypeAnalyzer.ReflectionBakingCoverageMode = _editorReflectionBakingCoverageMode;
