@@ -8,14 +8,14 @@ namespace BroWar.Injection.Contexts
     /// Optimized version of the <see cref="SceneContext"/> that limits searching for injectable objects to a single <see cref="GameObject"/>.
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("BroWar/Injection/Contexts/Fixed Context")]
-    public class FixedContext : SceneContext
+    [AddComponentMenu("BroWar/Injection/Contexts/Fixed Scene Context")]
+    public class FixedSceneContext : SceneContext
     {
         [Title("References")]
         [SerializeField, ReorderableList]
         private MonoBehaviour[] injectableBehaviours;
 
-        protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
+        protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
             monoBehaviours.AddRange(injectableBehaviours);
         }

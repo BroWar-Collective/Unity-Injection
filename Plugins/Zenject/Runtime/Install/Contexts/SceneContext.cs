@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject.Internal;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,6 +16,7 @@ using UnityEditor;
 
 namespace Zenject
 {
+    [AddComponentMenu("Zenject/Scene Context")]
     public class SceneContext : RunnableContext
     {
         public event Action PreInstall;
@@ -133,7 +133,7 @@ namespace Zenject
         protected override void ResetInstanceFields()
         {
             base.ResetInstanceFields();
-            
+
             _container = null;
             _decoratorContexts.Clear();
             _hasInstalled = false;
@@ -284,22 +284,6 @@ namespace Zenject
                 _container.QueueForInject(instance);
             }
 
-            // UIDocument is defined in the UI Elements package. In Unity 2021.1 the package was deprecated
-            // in favor of including it in the UI Elements module. Earlier Unity versions already had that
-            // module, but it does not include UIDocument.
-#if USE_UI_ELEMENTS_PACKAGE || (USE_UI_ELEMENTS_MODULE && UNITY_2021_1_OR_NEWER)
-            List<GameObject> rootObjectsInScene = new List<GameObject>();
-            gameObject.scene.GetRootGameObjects(rootObjectsInScene);
-            for (int i = 0; i < rootObjectsInScene.Count; i++)
-            {
-                UIDocument[] uiDocuments = rootObjectsInScene[i].GetComponentsInChildren<UIDocument>(true);
-                for (int j = 0; j < uiDocuments.Length; j++)
-                {
-                    uiDocuments[j].rootVisualElement.Query().ForEach(x => _container.QueueForInject(x));
-                }
-            }
-#endif
-
             foreach (var decoratorContext in _decoratorContexts)
             {
                 decoratorContext.Initialize(_container);
@@ -405,7 +389,7 @@ namespace Zenject
             }
         }
 
-        protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
+        protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
             var scene = gameObject.scene;
 

@@ -27,7 +27,8 @@ namespace BroWar.Injection
         private void Awake()
         {
             Assert.IsNotNull(sceneContext, "[Injection] Context not assigned.");
-            Assert.IsFalse(sceneContext.Initialized, "[Injection] Context is already initialized.");
+            var isInitialized = sceneContext.Initialized;
+            Assert.IsFalse(isInitialized, "[Injection] Context is already initialized.");
             sceneContext.OnPreInstall.AddListener(OnPreInstall);
         }
 

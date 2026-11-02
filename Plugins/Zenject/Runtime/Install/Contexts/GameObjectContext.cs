@@ -1,4 +1,4 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System;
 using System.Collections.Generic;
@@ -155,7 +155,7 @@ namespace Zenject
             }
         }
 
-        protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
+        protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
             ZenUtilInternal.AddStateMachineBehaviourAutoInjectersUnderGameObject(gameObject);
 

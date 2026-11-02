@@ -1,14 +1,7 @@
-#if !ODIN_INSPECTOR
+﻿#if !ODIN_INSPECTOR
 
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using UnityEditor;
-using UnityEditorInternal;
-using UnityEngine;
-using ModestTree;
 
 namespace Zenject
 {
@@ -24,9 +17,7 @@ namespace Zenject
             {
                 return base.PropertyNames.Concat(new string[]
                     {
-                        "_lateInstallers",
-                        "_lateInstallerPrefabs",
-                        "_lateScriptableObjectInstallers"
+                        "_lateInstallers"
                     })
                     .ToArray();
             }
@@ -38,9 +29,7 @@ namespace Zenject
             {
                 return base.PropertyDisplayNames.Concat(new string[]
                     {
-                        "Late Installers",
-                        "Late Prefab Installers",
-                        "Late Scriptable Object Installers"
+                        "Late Installers"
                     })
                     .ToArray();
             }
@@ -52,9 +41,7 @@ namespace Zenject
             {
                 return base.PropertyDescriptions.Concat(new string[]
                     {
-                        "Drag any MonoInstallers that you have added to your Scene Hierarchy here. They'll be installed after the target installs its bindings",
-                        "Drag any prefabs that contain a MonoInstaller on them here. They'll be installed after the target installs its bindings",
-                        "Drag any assets in your Project that implement ScriptableObjectInstaller here. They'll be installed after the target installs its bindings"
+                        "Drag any MonoInstallers that you have added to your Scene Hierarchy here. They'll be installed after the target installs its bindings"
                     })
                     .ToArray();
             }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace BroWar.Injection
+namespace BroWar.Injection.Installers
 {
     using BroWar.Common;
 

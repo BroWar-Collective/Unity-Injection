@@ -1,7 +1,7 @@
 ﻿using BroWar.Common;
 using UnityEngine;
 
-namespace BroWar.Injection
+namespace BroWar.Injection.Installers
 {
     public abstract class ProcessableInstaller<T0, T1> : ContextInstaller where T1 : ISubProcessor<T0>
     {

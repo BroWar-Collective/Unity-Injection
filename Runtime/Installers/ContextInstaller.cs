@@ -2,14 +2,15 @@
 using UnityEngine;
 using Zenject;
 
-namespace BroWar.Injection
+namespace BroWar.Injection.Installers
 {
     using BroWar.Common;
 
     [AddComponentMenu("BroWar/Injection/Context Installer")]
     public class ContextInstaller : MonoInstaller<ContextInstaller>
     {
-        [SerializeReference, ReferencePicker, ReorderableList(elementLabel: "Installer")]
+        [SerializeReference, ReferencePicker(TypeGrouping = TypeGrouping.ByFlatName)]
+        [ReorderableList(elementLabel: "Installer")]
         private ISubInstaller[] installers;
 
         protected virtual void HandleInstallers()
