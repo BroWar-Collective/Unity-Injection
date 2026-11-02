@@ -1,4 +1,4 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System;
 using System.Collections.Generic;
@@ -6,26 +6,18 @@ using System.Linq;
 using ModestTree;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Zenject.Internal;
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
 namespace Zenject
 {
     public abstract class Context : MonoBehaviour
     {
+        [FormerlySerializedAs("Installers")]
+        [FormerlySerializedAs("_installers")]
         [SerializeField]
-        List<ScriptableObjectInstaller> _scriptableObjectInstallers = new List<ScriptableObjectInstaller>();
-
-        [FormerlySerializedAs("Installers")] [FormerlySerializedAs("_installers")] [SerializeField]
         List<MonoInstaller> _monoInstallers = new List<MonoInstaller>();
-
-        [SerializeField] List<MonoInstaller> _installerPrefabs = new List<MonoInstaller>();
-
-        [Tooltip("If checked, this context will automatically get all MonoInstallers attached to the current gameObject by calling GetComponents. This is useful for when you are using Prefab Variants and you cannot easily modify the list of installers.")] [SerializeField]
-        bool _findSiblingMonoInstallers;
 
         List<InstallerBase> _normalInstallers = new List<InstallerBase>();
         List<Type> _normalInstallerTypes = new List<Type>();
@@ -37,26 +29,6 @@ namespace Zenject
             {
                 _monoInstallers.Clear();
                 _monoInstallers.AddRange(value);
-            }
-        }
-
-        public IEnumerable<MonoInstaller> InstallerPrefabs
-        {
-            get { return _installerPrefabs; }
-            set
-            {
-                _installerPrefabs.Clear();
-                _installerPrefabs.AddRange(value);
-            }
-        }
-
-        public IEnumerable<ScriptableObjectInstaller> ScriptableObjectInstallers
-        {
-            get { return _scriptableObjectInstallers; }
-            set
-            {
-                _scriptableObjectInstallers.Clear();
-                _scriptableObjectInstallers.AddRange(value);
             }
         }
 
@@ -84,6 +56,12 @@ namespace Zenject
             }
         }
 
+        public Action<List<MonoBehaviour>> GetInjectableMonoBehavioursCallback 
+        { 
+            get;
+            set;
+        }
+
         public abstract DiContainer Container { get; }
         public abstract IEnumerable<GameObject> GetRootGameObjects();
 
@@ -95,7 +73,7 @@ namespace Zenject
             EditorApplication.playModeStateChanged += OnEditorPlayModeChanged;
 #endif
         }
-        
+
 #if UNITY_EDITOR
         void OnEditorPlayModeChanged(PlayModeStateChange obj)
         {
@@ -130,76 +108,17 @@ namespace Zenject
             _normalInstallers.Add(installer);
         }
 
-        void CheckInstallerPrefabTypes(List<MonoInstaller> installers, List<MonoInstaller> installerPrefabs)
-        {
-            foreach (var installer in installers)
-            {
-                Assert.IsNotNull(installer, "Found null installer in Context '{0}'", name);
-
-#if UNITY_EDITOR
-#if UNITY_2018_3_OR_NEWER
-                Assert.That(!PrefabUtility.IsPartOfPrefabAsset(installer.gameObject),
-#else
-                Assert.That(PrefabUtility.GetPrefabType(installer.gameObject) != PrefabType.Prefab,
-#endif
-                    "Found prefab with name '{0}' in the Installer property of Context '{1}'.  You should use the property 'InstallerPrefabs' for this instead.",
-                    installer.name, name);
-#endif
-            }
-
-            foreach (var installerPrefab in installerPrefabs)
-            {
-                Assert.IsNotNull(installerPrefab, "Found null prefab in Context");
-
-                // We'd like to do this but this is actually a valid case sometimes
-                // (eg. loading an asset bundle with a scene containing a scene context when inside unity editor)
-//#if UNITY_EDITOR
-                //Assert.That(PrefabUtility.GetPrefabType(installerPrefab.gameObject) == PrefabType.Prefab,
-                //"Found non-prefab with name '{0}' in the InstallerPrefabs property of Context '{1}'.  You should use the property 'Installer' for this instead",
-                //installerPrefab.name, this.name);
-//#endif
-                Assert.That(installerPrefab.GetComponent<MonoInstaller>() != null,
-                    "Expected to find component with type 'MonoInstaller' on given installer prefab '{0}'",
-                    installerPrefab.name);
-            }
-        }
-
         protected void InstallInstallers()
         {
-            if (_findSiblingMonoInstallers)
-            {
-                List<MonoInstaller> siblingInstallers = ZenPools.SpawnList<MonoInstaller>();
-
-                try
-                {
-                    GetComponents(siblingInstallers);
-
-                    foreach (MonoInstaller m in siblingInstallers)
-                    {
-                        if (!_monoInstallers.Contains(m))
-                            _monoInstallers.Add(m);
-                    }
-                }
-                finally
-                {
-                    ZenPools.DespawnList(siblingInstallers);
-                }
-            }
-
             InstallInstallers(
-                _normalInstallers, _normalInstallerTypes, _scriptableObjectInstallers, _monoInstallers,
-                _installerPrefabs);
+                _normalInstallers, _normalInstallerTypes, _monoInstallers);
         }
 
         protected void InstallInstallers(
             List<InstallerBase> normalInstallers,
             List<Type> normalInstallerTypes,
-            List<ScriptableObjectInstaller> scriptableObjectInstallers,
-            List<MonoInstaller> installers,
-            List<MonoInstaller> installerPrefabs)
+            List<MonoInstaller> installers)
         {
-            CheckInstallerPrefabTypes(installers, installerPrefabs);
-
             // Ideally we would just have one flat list of all the installers
             // since that way the user has complete control over the order, but
             // that's not possible since Unity does not allow serializing lists of interfaces
@@ -219,33 +138,11 @@ namespace Zenject
             // that are injected into other installers like MonoInstallers)
 
             var allInstallers = normalInstallers.Cast<IInstaller>()
-                .Concat(scriptableObjectInstallers.Cast<IInstaller>())
                 .Concat(installers.Cast<IInstaller>()).ToList();
-
-            foreach (var installerPrefab in installerPrefabs)
-            {
-                Assert.IsNotNull(installerPrefab, "Found null installer prefab in '{0}'", GetType());
-
-                GameObject installerGameObject;
-
-#if ZEN_INTERNAL_PROFILING
-                using (ProfileTimers.CreateTimedBlock("GameObject.Instantiate"))
-#endif
-                {
-                    installerGameObject = GameObject.Instantiate(installerPrefab.gameObject);
-                }
-
-                installerGameObject.transform.SetParent(transform, false);
-                var installer = installerGameObject.GetComponent<MonoInstaller>();
-
-                Assert.IsNotNull(installer, "Could not find installer component on prefab '{0}'", installerPrefab.name);
-
-                allInstallers.Add(installer);
-            }
 
             foreach (var installerType in normalInstallerTypes)
             {
-                var installer = (InstallerBase) Container.Instantiate(installerType);
+                var installer = (InstallerBase)Container.Instantiate(installerType);
 
 #if ZEN_INTERNAL_PROFILING
                 using (ProfileTimers.CreateTimedBlock("User Code"))
@@ -353,35 +250,46 @@ namespace Zenject
                 switch (bindType)
                 {
                     case ZenjectBinding.BindTypes.Self:
-                    {
-                        Container.Bind(componentType).WithId(identifier).FromInstance(component);
-                        break;
-                    }
+                        {
+                            Container.Bind(componentType).WithId(identifier).FromInstance(component);
+                            break;
+                        }
                     case ZenjectBinding.BindTypes.BaseType:
-                    {
-                        Container.Bind(componentType.BaseType()).WithId(identifier).FromInstance(component);
-                        break;
-                    }
+                        {
+                            Container.Bind(componentType.BaseType()).WithId(identifier).FromInstance(component);
+                            break;
+                        }
                     case ZenjectBinding.BindTypes.AllInterfaces:
-                    {
-                        Container.Bind(componentType.Interfaces()).WithId(identifier).FromInstance(component);
-                        break;
-                    }
+                        {
+                            Container.Bind(componentType.Interfaces()).WithId(identifier).FromInstance(component);
+                            break;
+                        }
                     case ZenjectBinding.BindTypes.AllInterfacesAndSelf:
-                    {
-                        Container.Bind(componentType.Interfaces().Concat(new[] {componentType}).ToArray())
-                            .WithId(identifier).FromInstance(component);
-                        break;
-                    }
+                        {
+                            Container.Bind(componentType.Interfaces().Concat(new[] { componentType }).ToArray())
+                                .WithId(identifier).FromInstance(component);
+                            break;
+                        }
                     default:
-                    {
-                        throw Assert.CreateException();
-                    }
+                        {
+                            throw Assert.CreateException();
+                        }
                 }
             }
         }
 
-        protected abstract void GetInjectableMonoBehaviours(List<MonoBehaviour> components);
+        protected virtual void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
+        {
+            if (GetInjectableMonoBehavioursCallback != null)
+            {
+                GetInjectableMonoBehavioursCallback(monoBehaviours);
+                return;
+            }
+
+            GetDefaultInjectableMonoBehaviours(monoBehaviours);
+        }
+
+        protected abstract void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours);
     }
 }
 

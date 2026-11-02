@@ -1,4 +1,4 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System;
 using System.Collections.Generic;
@@ -14,12 +14,6 @@ namespace Zenject
         [SerializeField]
         List<MonoInstaller> _lateInstallers = new List<MonoInstaller>();
 
-        [SerializeField]
-        List<MonoInstaller> _lateInstallerPrefabs = new List<MonoInstaller>();
-
-        [SerializeField]
-        List<ScriptableObjectInstaller> _lateScriptableObjectInstallers = new List<ScriptableObjectInstaller>();
-
         public IEnumerable<MonoInstaller> LateInstallers
         {
             get { return _lateInstallers; }
@@ -27,26 +21,6 @@ namespace Zenject
             {
                 _lateInstallers.Clear();
                 _lateInstallers.AddRange(value);
-            }
-        }
-
-        public IEnumerable<MonoInstaller> LateInstallerPrefabs
-        {
-            get { return _lateInstallerPrefabs; }
-            set
-            {
-                _lateInstallerPrefabs.Clear();
-                _lateInstallerPrefabs.AddRange(value);
-            }
-        }
-
-        public IEnumerable<ScriptableObjectInstaller> LateScriptableObjectInstallers
-        {
-            get { return _lateScriptableObjectInstallers; }
-            set
-            {
-                _lateScriptableObjectInstallers.Clear();
-                _lateScriptableObjectInstallers.AddRange(value);
             }
         }
 
@@ -97,7 +71,7 @@ namespace Zenject
         protected override void ResetInstanceFields()
         {
             base.ResetInstanceFields();
-            
+
             _injectableMonoBehaviours.Clear();
             _container = null;
         }
@@ -114,7 +88,7 @@ namespace Zenject
             InstallInstallers();
         }
 
-        protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
+        protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
             var scene = gameObject.scene;
 
@@ -124,7 +98,7 @@ namespace Zenject
 
         public void InstallLateDecoratorInstallers()
         {
-            InstallInstallers(new List<InstallerBase>(), new List<Type>(), _lateScriptableObjectInstallers, _lateInstallers, _lateInstallerPrefabs);
+            InstallInstallers(new List<InstallerBase>(), new List<Type>(), _lateInstallers);
         }
     }
 }

@@ -9,14 +9,14 @@ namespace BroWar.Injection.Contexts
     /// Optimized version of the <see cref="SceneContext"/> that limits searching for injectable objects to a single <see cref="GameObject"/>.
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("BroWar/Injection/Contexts/Root Context")]
+    [AddComponentMenu("BroWar/Injection/Contexts/Root Scene Context")]
     public class RootContext : SceneContext
     {
         [Title("References")]
         [SerializeField, ReorderableList]
         private GameObject[] roots;
 
-        protected override void GetInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
+        protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
             for (var i = 0; i < roots.Length; i++)
             {

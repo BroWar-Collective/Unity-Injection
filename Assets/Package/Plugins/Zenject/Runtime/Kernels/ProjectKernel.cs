@@ -1,12 +1,14 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Zenject
 {
+    [AddComponentMenu("Zenject/Project Kernel")]
     public class ProjectKernel : MonoKernel
     {
         [Inject]

@@ -1,4 +1,4 @@
-#if !NOT_UNITY3D
+﻿#if !NOT_UNITY3D
 
 using System.IO;
 using ModestTree;
@@ -58,19 +58,6 @@ namespace Zenject.Internal
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
-        [MenuItem("Edit/Zenject/Create Project Context")]
-        public static void CreateProjectContextInDefaultLocation()
-        {
-            var fullDirPath = Path.Combine(Application.dataPath, "Resources");
-
-            if (!Directory.Exists(fullDirPath))
-            {
-                Directory.CreateDirectory(fullDirPath);
-            }
-
-            CreateProjectContextInternal("Assets/Resources");
-        }
-
         [MenuItem("Assets/Create/Zenject/Default Scene Contract Config", false, 80)]
         public static void CreateDefaultSceneContractConfig()
         {
@@ -119,29 +106,6 @@ namespace Zenject.Internal
                 + "\n}");
         }
 
-        [MenuItem("Assets/Create/Zenject/Scriptable Object Installer", false, 3)]
-        public static void CreateScriptableObjectInstaller()
-        {
-            AddCSharpClassTemplate("Scriptable Object Installer", "UntitledInstaller",
-                  "using UnityEngine;"
-                + "\nusing Zenject;"
-                + "\n"
-                + "\n[CreateAssetMenu(fileName = \"CLASS_NAME\", menuName = \"Installers/CLASS_NAME\")]"
-                + "\npublic class CLASS_NAME : ScriptableObjectInstaller<CLASS_NAME>"
-                + "\n{"
-                + "\n    public override void InstallBindings()"
-                + "\n    {"
-                + "\n    }"
-                + "\n}");
-        }
-
-        [MenuItem("Assets/Create/Zenject/Composite Scriptable Object Installer", false, 4)]
-        public static void CreateCompositeScriptableObjectInstaller()
-        {
-            ProjectWindowUtil.CreateAsset(
-                asset: ScriptableObject.CreateInstance<CompositeScriptableObjectInstaller>(),
-                pathName: "CompositeScriptableObjectInstaller.asset");
-        }
 
         [MenuItem("Assets/Create/Zenject/Editor Window", false, 20)]
         public static void CreateEditorWindow()
@@ -166,59 +130,6 @@ namespace Zenject.Internal
                 + "\n        // TODO"
                 + "\n    }"
                 + "\n}");
-        }
-
-        [MenuItem("Assets/Create/Zenject/Project Context", false, 40)]
-        public static void CreateProjectContext()
-        {
-            var absoluteDir = ZenUnityEditorUtil.TryGetSelectedFolderPathInProjectsTab();
-
-            if (absoluteDir == null)
-            {
-                EditorUtility.DisplayDialog("Error",
-                    "Could not find directory to place the '{0}.prefab' asset.  Please try again by right clicking in the desired folder within the projects pane."
-                    .Fmt(ProjectContext.ProjectContextResourcePath), "Ok");
-                return;
-            }
-
-            var parentFolderName = Path.GetFileName(absoluteDir);
-
-            if (parentFolderName != "Resources")
-            {
-                EditorUtility.DisplayDialog("Error",
-                    "'{0}.prefab' must be placed inside a directory named 'Resources'.  Please try again by right clicking within the Project pane in a valid Resources folder."
-                    .Fmt(ProjectContext.ProjectContextResourcePath), "Ok");
-                return;
-            }
-
-            CreateProjectContextInternal(absoluteDir);
-        }
-
-        static void CreateProjectContextInternal(string absoluteDir)
-        {
-            var assetPath = ZenUnityEditorUtil.ConvertFullAbsolutePathToAssetPath(absoluteDir);
-            var prefabPath = (Path.Combine(assetPath, ProjectContext.ProjectContextResourcePath) + ".prefab").Replace("\\", "/");
-
-            var gameObject = new GameObject();
-
-            try
-            {
-                gameObject.AddComponent<ProjectContext>();
-
-#if UNITY_2018_3_OR_NEWER
-                var prefabObj = PrefabUtility.SaveAsPrefabAsset(gameObject, prefabPath);
-#else
-                var prefabObj = PrefabUtility.ReplacePrefab(gameObject, PrefabUtility.CreateEmptyPrefab(prefabPath));
-#endif
-
-                Selection.activeObject = prefabObj;
-            }
-            finally
-            {
-                GameObject.DestroyImmediate(gameObject);
-            }
-
-            Debug.Log("Created new ProjectContext at '{0}'".Fmt(prefabPath));
         }
 
         public static string AddCSharpClassTemplate(

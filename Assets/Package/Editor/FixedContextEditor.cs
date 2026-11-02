@@ -6,7 +6,7 @@ namespace BroWar.Injection.Editor
 {
     using BroWar.Injection.Contexts;
 
-    [CustomEditor(typeof(FixedContext)), NoReflectionBaking]
+    [CustomEditor(typeof(FixedSceneContext)), NoReflectionBaking]
     public class FixedContextEditor : SceneContextEditorBase
     {
         private SerializedProperty injectableBehavioursProperty;
