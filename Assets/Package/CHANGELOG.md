@@ -1,3 +1,9 @@
+## 1.3.0 [02.11.2026]
+
+### Changed:
+- Fix resetting static values in the Zenject package
+- Ability to override default injection scanning behaviour in various Contexts
+
 ## 1.2.8 [15.09.2026]
 
 ### Changed:
