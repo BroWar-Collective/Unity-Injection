@@ -133,13 +133,13 @@ namespace Zenject
 #else
                     if(prefabWasActive)
                     {
-                        prefab.SetActive(false);
-                        gameObjectInstance = GameObject.Instantiate(prefab);
-                        prefab.SetActive(true);
+                        projectContextPrefab.SetActive(false);
+                        gameObjectInstance = GameObject.Instantiate(projectContextPrefab);
+                        projectContextPrefab.SetActive(true);
                     }
                     else
                     {
-                        gameObjectInstance = GameObject.Instantiate(prefab);
+                        gameObjectInstance = GameObject.Instantiate(projectContextPrefab);
                     }
 #endif
 
