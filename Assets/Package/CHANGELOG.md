@@ -1,3 +1,8 @@
+## 1.3.1 [04.11.2026]
+
+### Changed:
+- Ability to disable default scanning behaviour in the GameObjectContext
+
 ## 1.3.0 [02.11.2026]
 
 ### Changed:
