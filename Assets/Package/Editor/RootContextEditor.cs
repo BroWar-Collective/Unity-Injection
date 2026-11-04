@@ -6,7 +6,7 @@ namespace BroWar.Injection.Editor
 {
     using BroWar.Injection.Contexts;
 
-    [CustomEditor(typeof(RootContext)), NoReflectionBaking]
+    [CustomEditor(typeof(RootSceneContext)), NoReflectionBaking]
     public class RootContextEditor : SceneContextEditorBase
     {
         private SerializedProperty rootsProperty;

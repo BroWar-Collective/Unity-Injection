@@ -10,7 +10,7 @@ namespace BroWar.Injection.Contexts
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("BroWar/Injection/Contexts/Root Scene Context")]
-    public class RootContext : SceneContext
+    public class RootSceneContext : SceneContext
     {
         [Title("References")]
         [SerializeField, ReorderableList]

@@ -1,4 +1,4 @@
-#if !ODIN_INSPECTOR
+﻿#if !ODIN_INSPECTOR
 
 using UnityEditor;
 
@@ -8,12 +8,14 @@ namespace Zenject
     [NoReflectionBaking]
     public class GameObjectContextEditor : RunnableContextEditor
     {
+        SerializedProperty _scanForNestedMonoBehaviours;
         SerializedProperty _kernel;
-
+  
         public override void OnEnable()
         {
             base.OnEnable();
 
+            _scanForNestedMonoBehaviours = serializedObject.FindProperty("_scanForNestedMonoBehaviours");
             _kernel = serializedObject.FindProperty("_kernel");
         }
 
@@ -21,6 +23,7 @@ namespace Zenject
         {
             base.OnGui();
 
+            EditorGUILayout.PropertyField(_scanForNestedMonoBehaviours);
             EditorGUILayout.PropertyField(_kernel);
         }
     }

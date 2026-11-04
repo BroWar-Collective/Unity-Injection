@@ -11,6 +11,7 @@ using Zenject.Internal;
 
 namespace Zenject
 {
+    [AddComponentMenu("Zenject/Game Object Context")]
     public class GameObjectContext : RunnableContext
     {
         public event Action PreInstall;
@@ -19,7 +20,7 @@ namespace Zenject
         public event Action PostResolve;
 
         [SerializeField]
-        bool _scanForInjectableMonoBehaviours = true;
+        bool _scanForNestedMonoBehaviours = true;
         [SerializeField]
         [Tooltip("Note that this field is optional and can be ignored in most cases.  This is really only needed if you want to control the 'Script Execution Order' of your subcontainer.  In this case, define a new class that derives from MonoKernel, add it to this game object, then drag it into this field.  Then you can set a value for 'Script Execution Order' for this new class and this will control when all ITickable/IInitializable classes bound within this subcontainer get called.")]
         [FormerlySerializedAs("_facade")]
@@ -159,13 +160,6 @@ namespace Zenject
 
         protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
-            if (!_scanForInjectableMonoBehaviours)
-            {
-                return;
-            }
-
-            ZenUtilInternal.AddStateMachineBehaviourAutoInjectersUnderGameObject(gameObject);
-
             // We inject on all components on the root except ourself
             foreach (var monoBehaviour in GetComponents<MonoBehaviour>())
             {
@@ -188,14 +182,17 @@ namespace Zenject
                 monoBehaviours.Add(monoBehaviour);
             }
 
-            for (int i = 0; i < transform.childCount; i++)
+            if (_scanForNestedMonoBehaviours)
             {
-                var child = transform.GetChild(i);
-
-                if (child != null)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    ZenUtilInternal.GetInjectableMonoBehavioursUnderGameObject(
-                        child.gameObject, monoBehaviours);
+                    var child = transform.GetChild(i);
+
+                    if (child != null)
+                    {
+                        ZenUtilInternal.GetInjectableMonoBehavioursUnderGameObject(
+                            child.gameObject, monoBehaviours);
+                    }
                 }
             }
         }
