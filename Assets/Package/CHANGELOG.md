@@ -1,3 +1,14 @@
+## 1.3.2 [05.11.2026]
+
+### Added:
+- IInjectableProvider - custom processor responsible for caching and providing injectable objects
+
+### Changed:
+- Remove obsolete Processable Installers and related scripts
+- Renamed: RootContext -> RootSceneContext
+- Renamed: FixedContext -> FixedSceneContext
+- ContextOrderHelper is now removed
+
 ## 1.3.1 [04.11.2026]
 
 ### Changed:
