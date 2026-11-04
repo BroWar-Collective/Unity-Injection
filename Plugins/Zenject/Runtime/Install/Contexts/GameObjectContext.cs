@@ -19,6 +19,8 @@ namespace Zenject
         public event Action PostResolve;
 
         [SerializeField]
+        bool _scanForInjectableMonoBehaviours = true;
+        [SerializeField]
         [Tooltip("Note that this field is optional and can be ignored in most cases.  This is really only needed if you want to control the 'Script Execution Order' of your subcontainer.  In this case, define a new class that derives from MonoKernel, add it to this game object, then drag it into this field.  Then you can set a value for 'Script Execution Order' for this new class and this will control when all ITickable/IInitializable classes bound within this subcontainer get called.")]
         [FormerlySerializedAs("_facade")]
         MonoKernel _kernel;
@@ -53,7 +55,7 @@ namespace Zenject
         protected override void ResetInstanceFields()
         {
             base.ResetInstanceFields();
-            
+
             PreInstall = null;
             PostInstall = null;
             PreResolve = null;
@@ -70,13 +72,13 @@ namespace Zenject
             ResolveAndStart();
         }
 
-        public void Install(DiContainer parentContainer) 
+        public void Install(DiContainer parentContainer)
         {
             Assert.That(_parentContainer == null || _parentContainer == parentContainer);
 
             // We allow calling this explicitly instead of relying on the [Inject] event above
             // so that we can follow the two-pass construction-injection pattern in the providers
-            if (_hasInstalled) 
+            if (_hasInstalled)
             {
                 return;
             }
@@ -124,7 +126,7 @@ namespace Zenject
             }
         }
 
-        void ResolveAndStart() 
+        void ResolveAndStart()
         {
             if (PreResolve != null)
             {
@@ -157,6 +159,11 @@ namespace Zenject
 
         protected override void GetDefaultInjectableMonoBehaviours(List<MonoBehaviour> monoBehaviours)
         {
+            if (!_scanForInjectableMonoBehaviours)
+            {
+                return;
+            }
+
             ZenUtilInternal.AddStateMachineBehaviourAutoInjectersUnderGameObject(gameObject);
 
             // We inject on all components on the root except ourself
@@ -203,11 +210,16 @@ namespace Zenject
             if (_kernel == null)
             {
                 _container.Bind<MonoKernel>()
-                    .To<DefaultGameObjectKernel>().FromNewComponentOn(gameObject).AsSingle().NonLazy();
+                    .To<DefaultGameObjectKernel>().FromNewComponentOn(gameObject)
+                    .AsSingle()
+                    .NonLazy();
             }
             else
             {
-                _container.Bind<MonoKernel>().FromInstance(_kernel).AsSingle().NonLazy();
+                _container.Bind<MonoKernel>()
+                    .FromInstance(_kernel)
+                    .AsSingle()
+                    .NonLazy();
             }
 
             InstallSceneBindings(injectableMonoBehaviours);
