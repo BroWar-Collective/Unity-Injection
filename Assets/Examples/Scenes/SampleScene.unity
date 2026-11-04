@@ -187,6 +187,7 @@ MonoBehaviour:
   _parentContractNames: []
   roots:
   - {fileID: 1440433386}
+  - {fileID: 1834031518}
 --- !u!114 &1440433390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1834031520}
   - component: {fileID: 1834031519}
+  - component: {fileID: 1834031521}
   m_Layer: 0
   m_Name: GameObjectContext
   m_TagString: Untagged
@@ -275,9 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 1834031521}
   _autoRun: 1
-  _scanForInjectableMonoBehaviours: 1
+  _scanForNestedMonoBehaviours: 0
   _kernel: {fileID: 0}
 --- !u!4 &1834031520
 Transform:
@@ -294,6 +297,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1834031521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834031518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3af6b1d4fea46f9459abaf27effa14ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
