@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using ModestTree;
-using UnityEngine;
 
 namespace Zenject
 {
     public class DictionaryPool<TKey, TValue> : StaticMemoryPool<Dictionary<TKey, TValue>>
     {
-        static DictionaryPool<TKey, TValue> _instance = new DictionaryPool<TKey, TValue>();
+        static readonly DictionaryPool<TKey, TValue> _instance = new DictionaryPool<TKey, TValue>();
 
         public DictionaryPool()
         {
@@ -17,12 +16,6 @@ namespace Zenject
         public static DictionaryPool<TKey, TValue> Instance
         {
             get { return _instance; }
-        }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStaticValues()
-        {
-            _instance = null;
         }
 
         static void OnSpawned(Dictionary<TKey, TValue> items)

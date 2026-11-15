@@ -1,23 +1,16 @@
 ﻿using System.Collections.Generic;
 using ModestTree;
-using UnityEngine;
 
 namespace Zenject
 {
     public class HashSetPool<T> : StaticMemoryPool<HashSet<T>>
     {
-        static HashSetPool<T> _instance = new HashSetPool<T>();
+        static readonly HashSetPool<T> _instance = new HashSetPool<T>();
 
         public HashSetPool()
         {
             OnSpawnMethod = OnSpawned;
             OnDespawnedMethod = OnDespawned;
-        }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void ResetStaticValues()
-        {
-            _instance = null;
         }
 
         public static HashSetPool<T> Instance
