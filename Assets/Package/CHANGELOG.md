@@ -1,3 +1,8 @@
+## 1.3.3 [15.11.2026]
+
+### Changed:
+- Fix RuntimeInitializeOnLoadMethod usage in generic pool classes
+
 ## 1.3.2 [05.11.2026]
 
 ### Added:
