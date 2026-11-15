@@ -1,7 +1,7 @@
 {
     "name": "com.browar.injection",
     "displayName": "Injection",
-    "version": "1.3.2",
+    "version": "1.3.3",
     "unity": "2018.1",
     "description": "Dependency Injection system.",
     "keywords": [
